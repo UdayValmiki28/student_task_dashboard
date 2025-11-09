@@ -17,7 +17,22 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
+from django.http import HttpResponse
+from django.http import JsonResponse
+
+def favicon_view(request):
+    return HttpResponse(status=204)  # No Content
+
+def home(request):
+    return JsonResponse({
+        "message": "✅ Student Task Dashboard API is live and running!",
+        "status": "success"
+    })
+    
+
 urlpatterns = [
+    path('', home)
     path('admin/', admin.site.urls),
-    path('api/', include('dashboard.urls')),  # add this line
+    path('api/', include('dashboard.urls')),
+    path('favicon.ico', favicon_view),# add this line
 ]
