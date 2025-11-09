@@ -15,24 +15,22 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path
+from django.http import JsonResponse, HttpResponse
 
-from django.http import HttpResponse
-from django.http import JsonResponse
-
-def favicon_view(request):
-    return HttpResponse(status=204)  # No Content
-
+# ✅ Simple homepage for Render
 def home(request):
     return JsonResponse({
         "message": "✅ Student Task Dashboard API is live and running!",
         "status": "success"
     })
-    
+
+# ✅ Handles /favicon.ico requests to avoid 400 errors
+def favicon_view(request):
+    return HttpResponse(status=204)  # No Content
 
 urlpatterns = [
-    path('', home)
+    path('', home),  # Homepage route
+    path('favicon.ico', favicon_view),  # Favicon fix
     path('admin/', admin.site.urls),
-    path('api/', include('dashboard.urls')),
-    path('favicon.ico', favicon_view),# add this line
 ]
